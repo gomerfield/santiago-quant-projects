@@ -7,32 +7,13 @@ These projects are designed to demonstrate skills relevant to **quantitative tra
 
 I am currently completing the **Pre-Master in Econometrics & Quantitative Finance** at **Erasmus University Rotterdam**, with a background in Economics and professional experience in data analytics and financial modeling.
 
-This repository contains two complete end-to-end quant research projects:
+This repository contains one complete end-to-end quant research project and one WIP project:
 
 ---
 
-## Project 1 — Intraday Microstructure Mean-Reversion
-**Folder:** `project1_intraday/`
 
-A quantitative exploration of intraday market microstructure inefficiencies using imbalance-derived signals.  
-Includes:
-
-- Synthetic-data demo
-- Microstructure imbalance feature construction
-- Intraday mean-reversion model
-- Rolling z-score signal generation
-- Backtesting engine with cost & turnover handling
-- Performance metrics (Sharpe, drawdown, Sortino, Calmar, annualized returns)
-- Plots and cumulative results
-
-**Core Idea:**  
-Microstructure noise and temporary order-flow imbalances can cause short-lived inefficiencies.  
-This project models those imbalances and tests whether they allow predictive intraday trading signals.
-
----
-
-## Project 2 — Cross-Sectional Momentum Long/Short Strategy
-**Folder:** `project2_momentum/`
+## Project 1 — Cross-Sectional Momentum Long/Short Strategy
+**Folder:** `project_momentum_strategy/`
 
 A systematic long–short equity portfolio built on cross-sectional price momentum,
 rebalanced monthly, applied to a European universe (~150 stocks from the STOXX
@@ -170,8 +151,6 @@ applied without modification to the out-of-sample test period (2018–2020).
 
 --
 
-
-
 ## Contact details:
 ### LinkedIn: https://www.linkedin.com/in/santiago-tognetti-57022a122/
 ### Email: tognettisantiago@gmail.com
@@ -180,5 +159,22 @@ applied without modification to the out-of-sample test period (2018–2020).
 
 --
 
+## Project 2 — Intraday Microstructure Mean-Reversion
+**Folder:** `project_intraday_marketmaking/`
 
+A quantitative exploration of intraday market microstructure inefficiencies using imbalance-derived signals.  
+Includes:
 
+- Synthetic-data demo
+- Microstructure imbalance feature construction
+- Intraday mean-reversion model
+- Rolling z-score signal generation
+- Backtesting engine with cost & turnover handling
+- Performance metrics (Sharpe, drawdown, Sortino, Calmar, annualized returns)
+- Plots and cumulative results
+
+**Core Idea:**  
+Microstructure noise and temporary order-flow imbalances can cause short-lived inefficiencies.  
+This project models those imbalances and tests whether they allow predictive intraday trading signals.
+
+---
