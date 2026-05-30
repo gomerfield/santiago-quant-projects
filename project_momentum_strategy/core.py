@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
-import pandas_datareader.data as web
 
 def momentum_long_short(prices, lookback, topk, rebalance_period, tc_per_unit, max_weight):
     """
@@ -84,13 +83,22 @@ def momentum_long_short(prices, lookback, topk, rebalance_period, tc_per_unit, m
 
 def get_risk_free_rate(start: str, end: str) -> pd.Series:
     """
-    Fetch 3-month EURIBOR from FRED as the risk-free rate for European strategies.
-    Ticker: EUR3MTD156N — annualised, in percent.
+    Fetch 3-month EURIBOR from FRED as the risk-free rate.
+    Uses a direct CSV download — no pandas_datareader dependency.
     """
-    rf = web.DataReader('IR3TIB01EZM156N', 'fred', start, end)['IR3TIB01EZM156N']
-    rf = rf / 100
-    rf = rf.resample('B').ffill()
+    url = (
+        "https://fred.stlouisfed.org/graph/fredgraph.csv"
+        "?id=IR3TIB01EZM156N"
+    )
+    df = pd.read_csv(url, index_col=0, parse_dates=True)
+    df.columns = ["rate"]
+    df = df.loc[start:end]
+    df["rate"] = pd.to_numeric(df["rate"], errors="coerce")
+    df = df.dropna()
+    rf = df["rate"] / 100
+    rf = rf.resample("B").ffill()
     return rf / 252
+
 
 def perf_stats(returns: pd.Series, freq: str = 'day', rf: pd.Series | None = None, turnover=0, rebalance_period=21):
     """
