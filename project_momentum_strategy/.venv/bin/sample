@@ -1,0 +1,6 @@
+#!/Users/togne/Documents/GitHub/santiago-quant-projects/project_momentum_strategy/.venv/bin/python3.11
+import sys
+from sample import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())
