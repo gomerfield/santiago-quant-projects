@@ -37,11 +37,16 @@ def simulate_intraday(n_days: int = 252, minutes_per_day: int = 390, seed: int =
         mids = price * np.exp(np.cumsum(rets))
         price = mids[-1]  # price carries over; imbalance resets
 
+        cum_vol    = np.arange(1, N + 1, dtype=float)
+        cum_tp_vol = (mids * cum_vol).cumsum()
+        vwap_day   = cum_tp_vol / cum_vol
+
         day_df = pd.DataFrame({
             "mid":       mids,
             "ret":       rets,
             "imbalance": imbalance,
             "spread":    0.0005,
+            "vwap_dev":  (mids - vwap_day) / vwap_day,
         }, index=times)
         all_rows.append(day_df)
 

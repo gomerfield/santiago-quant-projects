@@ -1,9 +1,15 @@
-# Project 2 — Cross-Sectional Momentum Strategy
-# Python 3.11+
+# Quant Research Projects — Python 3.11+
 
+# Shared dependencies for both projects
 pandas>=2.0
 numpy>=1.26
 matplotlib>=3.8
+
+# Project 1 — Cross-Sectional Momentum Strategy
 yfinance>=0.2.40
 pandas-datareader>=0.10
 statsmodels>=0.14
+
+# Project 2 — Intraday Microstructure Mean-Reversion
+requests>=2.31
+pyarrow>=14.0

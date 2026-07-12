@@ -160,21 +160,80 @@ applied without modification to the out-of-sample test period (2018–2020).
 --
 
 ## Project 2 — Intraday Microstructure Mean-Reversion
-**Folder:** `project_intraday_marketmaking/`
+**Folder:** `project_intraday_marketmaking/` · **Full docs:** [`project_intraday_marketmaking/README.md`](project_intraday_marketmaking/README.md)
 
-A quantitative exploration of intraday market microstructure inefficiencies using imbalance-derived signals.  
+A systematic intraday mean-reversion strategy on 1-minute SPY bars. The signal
+fades extreme deviations from the session cumulative VWAP, with rolling z-score
+normalisation, per-trade stop-losses, end-of-day flattening, and half-spread
+transaction costs. Data sourced from Polygon.io; results include an in-sample
+parameter grid (May–Oct 2024) and out-of-sample evaluation (Nov–Dec 2024).
+
 Includes:
 
-- Synthetic-data demo
-- Microstructure imbalance feature construction
-- Intraday mean-reversion model
-- Rolling z-score signal generation
-- Backtesting engine with cost & turnover handling
-- Performance metrics (Sharpe, drawdown, Sortino, Calmar, annualized returns)
-- Plots and cumulative results
+- Synthetic-data demo (pipeline validation only — signal planted by construction)
+- Polygon.io data fetch with parquet caching
+- Intraday bar cleaning and VWAP deviation feature engineering
+- Rolling z-score mean-reversion signal with open-session filter
+- Backtesting engine with confirmation filter, stop-loss, and cost handling
+- In-sample sensitivity grid (z_window × z_thresh × stop_loss)
+- Performance metrics: Sharpe, Sortino, Calmar, hit rate, profit factor, drawdown
+- Trade-level log and time-of-day P&L breakdown
 
 **Core Idea:**  
-Microstructure noise and temporary order-flow imbalances can cause short-lived inefficiencies.  
-This project models those imbalances and tests whether they allow predictive intraday trading signals.
+Temporary order-flow imbalances can push prices away from intraday fair value on
+short horizons. This project tests whether fading VWAP deviations on 1-minute
+bars produces a net-positive edge after spread costs — a standard microstructure
+hypothesis applied to liquid ETF data.
+
+**How to run:**
+
+```bash
+# Synthetic demo — no data download required
+python project_intraday_marketmaking/run_synthetic.py
+
+# SPY backtest — requires POLYGON_API_KEY env variable
+export POLYGON_API_KEY=your_key_here
+python project_intraday_marketmaking/run_live.py
+```
+
+**Key files:**
+
+| File | Purpose |
+|---|---|
+| `core.py` | Simulation, signal generation, backtest, performance stats, trade log |
+| `data.py` | Polygon fetch + bar cleaning / feature engineering |
+| `run_synthetic.py` | Validates pipeline on simulated intraday data |
+| `run_live.py` | Train/test split, sensitivity grid, OOS backtest, plots |
+| `project1_intraday.py` | Deprecated legacy prototype (reference only) |
+
+### Out-of-Sample Results (2024-11-01 → 2024-12-31)
+
+Selected in-sample parameters: `z_window=240`, `z_thresh=1.5`, `stop_loss=0.003`
+
+| Metric | Value |
+|---|---|
+| Annualised Return | −63.95% |
+| Annualised Volatility | 5.58% |
+| Sharpe Ratio | −11.47 |
+| Sortino | −6.77 |
+| Calmar | −4.21 |
+| Cumulative Return | −15.07% |
+| Max Drawdown | 15.18% |
+| Hit Rate | 41.4% |
+| Profit Factor | 0.65 |
+
+The strategy produced negative returns both in-sample and out-of-sample. Every
+parameter combination in the 80-cell sensitivity grid had negative in-sample
+Sharpe (best: −6.73), indicating no stable edge in the VWAP deviation signal on
+SPY over this period. Transaction costs on ~409 OOS trades (avg holding 7.3
+bars) appear to dominate any raw mean-reversion signal. Full sensitivity tables,
+trade-log statistics, and time-of-day breakdown are in the
+[project README](project_intraday_marketmaking/README.md).
+
+**Future Work**
+- Multi-ticker expansion and longer evaluation window
+- Order-flow features from tick/Level 2 data
+- Walk-forward parameter selection instead of single train/test split
+- Realistic latency and fill simulation
 
 ---

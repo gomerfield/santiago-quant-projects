@@ -45,10 +45,10 @@ def run_sensitivity(df_train: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(results).sort_values("sharpe", ascending=False)
 
 def run_live():
-    api_key = os.environ.get("POLYGON_API_KEY", "Sy4ZQHDR_6kt6HnD8VOCJpj0qC_8PnZp")
+    api_key = os.environ.get("POLYGON_API_KEY")
     if not api_key:
         raise EnvironmentError(
-            "Set your Polygon API key:\n export POLYGON_API_KEY=your polygon key here"
+            "Set your Polygon API key:\n  export POLYGON_API_KEY=your_key_here"
         )
 
     # ── Download & prepare ──────────────────────────────────────────────

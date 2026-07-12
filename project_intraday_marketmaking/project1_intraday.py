@@ -1,3 +1,10 @@
+"""
+DEPRECATED — Legacy prototype superseded by core.py + run_synthetic.py + run_live.py.
+
+This module uses a simpler imbalance z-score signal (not VWAP deviation) and a
+single combined signal_and_backtest() function. Kept for reference only; do not
+extend or import in new code.
+"""
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
